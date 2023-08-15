@@ -9,50 +9,75 @@
       body {
         font-family: Arial, sans-serif;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
         margin: 0;
       }
 
+      h1 {
+        font-weight: 200;
+      }
+
       .elapsed-time {
         text-align: center;
+        font-size: 30px;
       }
     </style>
   </head>
 
   <body>
+    <div>
+      <h1>
+        Zoé est née le 17/07/2023 à 00:04, soit il y a à peu près :
+      </h1>
+    </div>
     <div class="elapsed-time" id="elapsedTime"></div>
     <script>
       function displayElapsedTime(originDateTime, elementId) {
+
         const elapsedTimeElement = document.getElementById(elementId);
+
         const now = new Date();
+
         const timeDifference = now - originDateTime;
 
         const seconds = Math.round(timeDifference / 1000);
-        const remainingSeconds = seconds % 60;
-        const remainingMinutes = minutes % 60;
 
         const minutes = Math.round(seconds / 60);
-        const hours = Math.round(timeDifference / (1000 * 60 * 60)) % 24;
-        const days = Math.round(timeDifference / (1000 * 60 * 60 * 24));
-        const weeks = Math.round(days / 7);
-        const months = Math.round(days / 30); // Approximate months as 30 days
-        const years = Math.round(months / 12);
+        const remainingSeconds = seconds % 60;
 
-        const remainingMonths = months % 12;
-        const remainingDays = days % 30;
+        const hours = Math.round(minutes / 60);
+        const remainingMinutes = minutes % 60;
+
+        const days = Math.round(hours / 24);
         const remainingHours = hours % 24;
 
-        const elapsedTimeText = `${years} an(s), ${remainingMonths} mois, ${weeks} semaine(s), ${remainingDays} jour(s), ${remainingHours} heure(s), ${remainingMinutes} minute(s), ${remainingSeconds} seconde(s)`;
+        const weeks = Math.round(days / 7);
+        const remainingDays = days % 7;
+
+        // Approximate months as 30 days
+        const months = Math.round(days / 30);
+        const remainingWeeks = weeks % 4;
+
+        const years = Math.round(months / 12);
+        const remainingMonths = months % 12;
+
+
+        // years version
+        // const elapsedTimeText = `${years} an(s), ${months} mois, ${remainingWeeks} semaine(s), ${remainingDays} jour(s), ${remainingHours} heure(s), ${remainingMinutes} minute(s), ${remainingSeconds} seconde(s)`;
+
+        const elapsedTimeText = `${months} mois, ${remainingWeeks} semaine(s), ${remainingDays} jour(s), ${remainingHours} heure(s), ${remainingMinutes} minute(s), ${remainingSeconds} seconde(s)`;
+
         elapsedTimeElement.textContent = elapsedTimeText;
       }
 
-      const originDateTime = new Date("2023-07-17T12:00:04").getTime(); // Date et heure d'origine
+      const originDateTime = new Date("2023-07-17T00:04:00").getTime(); // Date et heure d'origine
 
       displayElapsedTime(originDateTime, "elapsedTime");
 
-      // Actualiser toutes les secondes
+      // Refresh every seconds
       setInterval(() => {
         displayElapsedTime(originDateTime, "elapsedTime");
       }, 1000);

@@ -20,7 +20,7 @@
         font-weight: 200;
       }
 
-      .elapsed-time {
+      .elapsed-time, .days {
         text-align: center;
         font-size: 30px;
       }
@@ -34,6 +34,7 @@
       </h1>
     </div>
     <div class="elapsed-time" id="elapsedTime"></div>
+    <div class="days" id="days"></div>
     <script>
       function displayElapsedTime(originDateTime, elementId) {
 
@@ -52,12 +53,13 @@
         const remainingMinutes = minutes % 60;
 
         const days = Math.round(hours / 24);
+        const totalDays = document.getElementById("days");
         const remainingHours = hours % 24;
 
         const weeks = Math.round(days / 7);
-        const remainingDays = days % 7;
+        const remainingDays = days % 30;
 
-        // Approximate months as 30 days
+        // Approximate months as 31 days
         const months = Math.round(days / 30);
         const remainingWeeks = weeks % 4;
 
@@ -71,6 +73,8 @@
         const elapsedTimeText = `${months} mois, ${remainingWeeks} semaine(s), ${remainingDays} jour(s), ${remainingHours} heure(s), ${remainingMinutes} minute(s), ${remainingSeconds} seconde(s)`;
 
         elapsedTimeElement.textContent = elapsedTimeText;
+        const daysText = `(${days} jour(s) au total)`
+        totalDays.textContent = daysText;
       }
 
       const originDateTime = new Date("2023-07-17T00:04:00").getTime(); // Date et heure d'origine

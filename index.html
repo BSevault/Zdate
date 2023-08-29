@@ -84,9 +84,9 @@
 
         //display result with custom text
         const result =
-        ((years_passed == 1) ? years_passed + ' ' + yrsTxt[0] + ' ' : (years_passed > 1) ?
-          years_passed + ' ' + yrsTxt[1] + ' ' : '') +
-          ((months_passed == 1) ? months_passed + ' ' + mnthsTxt[0] : (months_passed > 1) ?
+          ((years_passed == 1) ? years_passed + ' ' + yrsTxt[0] + ' ' : (years_passed > 1) ?
+            years_passed + ' ' + yrsTxt[1] + ' ' : '') +
+          ((months_passed == 1) ? months_passed + ' ' + mnthsTxt[0] + ' ' : (months_passed > 1) ?
             months_passed + ' ' + mnthsTxt[1] + ' ' : '') +
           ((days_passed == 1) ? days_passed + ' ' + daysTxt[0] : (days_passed > 1) ?
             days_passed + ' ' + daysTxt[1] : '');
@@ -109,9 +109,9 @@
 
         const totalDays = document.getElementById(daysElementId);
 
-        elapsedTimeElement.textContent = durationObject.result;
+        elapsedTimeElement.textContent = durationObject.result + ",";
 
-        totalDays.textContent = durationObject.total_days + " jours";
+        totalDays.textContent = "ou " + durationObject.total_days + " jours";
 
       }
 

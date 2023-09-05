@@ -1,127 +1,168 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temps Écoulé</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Temps Écoulé</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
 
-      h1 {
-        font-weight: 200;
-      }
+            h1 {
+                font-weight: 200;
+            }
 
-      .elapsed-time,
-      .days {
-        text-align: center;
-        font-size: 30px;
-      }
-    </style>
-  </head>
+            .elapsed-time,
+            .days {
+                text-align: center;
+                font-size: 30px;
+            }
+        </style>
+    </head>
 
-  <body>
-    <div>
-      <h1>
-        Zoé est née le 17/07/2023 à 00:04, soit il y a environ :
-      </h1>
-    </div>
-    <div class="elapsed-time" id="elapsedTime"></div>
-    <div class="days" id="days"></div>
-    <script>
-      function calcDate(date1, date2) {
-        /*
-        * calcDate() : Calculates the difference between two dates
-        * @date1 : "First Date in the format MM-DD-YYYY"
-        * @date2 : "Second Date in the format MM-DD-YYYY"
-        * return : Array
-        */
+    <body>
+        <div>
+            <h1>
+                <!-- Zoé est née le 17/07/2023 à 00:04, soit : -->
+            </h1>
+        </div>
+        <div class="elapsed-time" id="elapsedTime"></div>
 
-        //new date instance
-        const dt_date1 = new Date(date1);
-        const dt_date2 = new Date(date2);
+        <script src="luxon.js"></script>
+        <script>
 
-        //Get the Timestamp
-        const date1_time_stamp = dt_date1.getTime();
-        const date2_time_stamp = dt_date2.getTime();
+            function calculateDuration(date1, date2) {
 
-        let calc;
+                const diff = date1.diff(date2, ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds']).values;
 
-        //Check which timestamp is greater
-        if (date1_time_stamp > date2_time_stamp) {
-          calc = new Date(date1_time_stamp - date2_time_stamp);
-        } else {
-          calc = new Date(date2_time_stamp - date1_time_stamp);
-        }
-        //Retrieve the date, month and year
-        const calcFormatTmp = calc.getDate() + '-' + (calc.getMonth() + 1) + '-' + calc.getFullYear();
-        //Convert to an array and store
-        const calcFormat = calcFormatTmp.split("-");
-        //Subtract each member of our array from the default date
-        const days_passed = Number(Math.abs(calcFormat[0]) - 1);
-        const months_passed = Number(Math.abs(calcFormat[1]) - 1);
-        const years_passed = Number(Math.abs(calcFormat[2]) - 1970);
+                diff.seconds = Math.round(diff.seconds);
 
-        //Set up custom text
-        const yrsTxt = ["année", "années"];
-        const mnthsTxt = ["mois", "mois"];
-        const daysTxt = ["jour", "jours"];
+                return diff
 
-        //Convert to days and sum together
-        const total_days = (years_passed * 365) + (months_passed * 30.417) + days_passed;
-        const total_secs = total_days * 24 * 60 * 60;
-        const total_mins = total_days * 24 * 60;
-        const total_hours = total_days * 24;
-        const total_weeks = (total_days >= 7) ? total_days / 7 : 0;
+                //   //Get the Timestamp
+                //   const date1_time_stamp = dt_date1.getTime();
+                //   const date2_time_stamp = dt_date2.getTime();
 
-        //display result with custom text
-        const result =
-          ((years_passed == 1) ? years_passed + ' ' + yrsTxt[0] + ' ' : (years_passed > 1) ?
-            years_passed + ' ' + yrsTxt[1] + ' ' : '') +
-          ((months_passed == 1) ? months_passed + ' ' + mnthsTxt[0] + ' ' : (months_passed > 1) ?
-            months_passed + ' ' + mnthsTxt[1] + ' ' : '') +
-          ((days_passed == 1) ? days_passed + ' ' + daysTxt[0] : (days_passed > 1) ?
-            days_passed + ' ' + daysTxt[1] : '');
+                //   let calc;
 
-        //return the result
-        return {
-          "total_days": Math.round(total_days),
-          "total_weeks": Math.round(total_weeks),
-          "total_hours": Math.round(total_hours),
-          "total_minutes": Math.round(total_mins),
-          "total_seconds": Math.round(total_secs),
-          "result": result.trim()
-        }
+                //   //Check which timestamp is greater
+                //   if (date1_time_stamp > date2_time_stamp) {
+                //     calc = new Date(date1_time_stamp - date2_time_stamp);
+                //   } else {
+                //     calc = new Date(date2_time_stamp - date1_time_stamp);
+                //   }
+                //   //Retrieve the date, month and year
+                //   const calcFormatTmp = calc.getDate() + '-' + (calc.getMonth() + 1) + '-' + calc.getFullYear();
+                //   //Convert to an array and store
+                //   const calcFormat = calcFormatTmp.split("-");
+                //   //Subtract each member of our array from the default date
+                //   const days_passed = Number(Math.abs(calcFormat[0]) - 1);
+                //   const months_passed = Number(Math.abs(calcFormat[1]) - 1);
+                //   const years_passed = Number(Math.abs(calcFormat[2]) - 1970);
 
-      }
+                //   //Set up custom text
+                //   const yrsTxt = ["année", "années"];
+                //   const mnthsTxt = ["mois", "mois"];
+                //   const daysTxt = ["jour", "jours"];
 
-      function displayElapsedTime(durationObject, textElementId, daysElementId) {
+                //   //Convert to days and sum together
+                //   const total_days = (years_passed * 365) + (months_passed * 30.417) + days_passed;
+                //   const total_secs = total_days * 24 * 60 * 60;
+                //   const total_mins = total_days * 24 * 60;
+                //   const total_hours = total_days * 24;
+                //   const total_weeks = (total_days >= 7) ? total_days / 7 : 0;
 
-        const elapsedTimeElement = document.getElementById(textElementId);
+                //   //display result with custom text
+                //   const result =
+                //     ((years_passed == 1) ? years_passed + ' ' + yrsTxt[0] + ' ' : (years_passed > 1) ?
+                //       years_passed + ' ' + yrsTxt[1] + ' ' : '') +
+                //     ((months_passed == 1) ? months_passed + ' ' + mnthsTxt[0] + ' ' : (months_passed > 1) ?
+                //       months_passed + ' ' + mnthsTxt[1] + ' ' : '') +
+                //     ((days_passed == 1) ? days_passed + ' ' + daysTxt[0] : (days_passed > 1) ?
+                //       days_passed + ' ' + daysTxt[1] : '');
 
-        const totalDays = document.getElementById(daysElementId);
+                //   //return the result
+                //   return {
+                //     "total_days": Math.round(total_days),
+                //     "total_weeks": Math.round(total_weeks),
+                //     "total_hours": Math.round(total_hours),
+                //     "total_minutes": Math.round(total_mins),
+                //     "total_seconds": Math.round(total_secs),
+                //     "result": result.trim()
+                //   }
 
-        elapsedTimeElement.textContent = durationObject.result + ",";
+            }
 
-        totalDays.textContent = "ou " + durationObject.total_days + " jours";
+            function generateDurationString(durationObject) {
 
-      }
+                const years = durationObject.years;
+                const months = durationObject.months;
+                const weeks = durationObject.weeks;
+                const days = durationObject.days;
+                const hours = durationObject.hours;
+                const minutes = durationObject.minutes;
+                const seconds = durationObject.seconds;
 
-      const originDateTime = new Date("2023-07-17T00:04:00"); // Date et heure d'origine
+                const yearsArray = ["an", "ans"];
+                const weeksArray = ["semaine", "semaines"];
+                const daysArray = ["jour", "jours"];
+
+                const yearsString = years == 1 ? years + ' ' + yearsArray[0] + ' ' :
+                    years > 1 ? years + ' ' + yearsArray[1] + ' ' : '';
+
+                const weeksString = weeks == 1 ? weeks + ' ' + weeksArray[0] + ' ' :
+                    weeks > 1 ? weeks + ' ' + weeksArray[1] + ' ' : '';
+
+                const daysString = days == 1 ? days + ' ' + daysArray[0] + ' ' :
+                    days > 1 ? days + ' ' + daysArray[1] + ' ' : '';
+
+                const durationString = yearsString + months + ' mois ' + weeksString + daysString + minutes + ' minutes ' + seconds + ' secondes '
+
+                return durationString;
+
+
+                const durationElement = document.getElementById(durationElementId);
+
+                const totalDays = document.getElementById(daysElementId);
+
+                durationElement.textContent = durationObject.result + ",";
+
+                totalDays.textContent = "ou " + durationObject.total_days + " jours";
+
+            }
+
+            function setElementText(string, elementID) {
+
+                const element = document.getElementById(elementID);
+
+                element.textContent = string;
+
+            }
+
+            const originDateTime = luxon.DateTime.fromISO("2023-07-17T00:04:00"); // Date et heure d'origine
+
+            const duration = calculateDuration(luxon.DateTime.now(), originDateTime);
+            const string = generateDurationString(duration);
+
+            console.log(duration);
+            console.log("access diff.values");
+            console.log(duration.months);
+            console.log(string);
 
       // Refresh every seconds
-      setInterval(() => {
-        displayElapsedTime(calcDate(originDateTime, new Date()), "elapsedTime", "days");
-      }, 1000);
-    </script>
-  </body>
+      // setInterval(() => {
+      //   generateDurationString(calculateDuration(luxon.DateTime.now(), originDateTime), "elapsedTime", "days");
+      // }, 1000);
+
+        </script>
+    </body>
 
 </html>

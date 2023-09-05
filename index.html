@@ -1,114 +1,22 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Temps Écoulé</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-            }
-
-            h1 {
-                font-weight: 200;
-            }
-
-            .elapsed-time,
-            .days {
-                text-align: center;
-                font-size: 30px;
-            }
-        </style>
+        <title>Elapsed Time</title>
+        <link rel="stylesheet" href="styles.css">
+        <script src="luxon.js"></script>
+        <script src="script.js"></script>
     </head>
 
     <body>
         <div>
             <h1>
-                Zoé est née le 17/07/2023 à 00:04, soit :
+                Zoé est née le 17/07/2023 à 00:04, soit:
             </h1>
         </div>
         <div class="elapsed-time" id="elapsedTime"></div>
-
-        <script src="luxon.js"></script>
-        <script>
-
-            function calculateDuration(date1, date2) {
-
-                const diff = date1.diff(date2, ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds']).values;
-
-                diff.seconds = Math.round(diff.seconds);
-
-                return diff
-
-            }
-
-            function generateDurationString(durationObject) {
-
-                const years = durationObject.years;
-                const months = durationObject.months;
-                const weeks = durationObject.weeks;
-                const days = durationObject.days;
-                const hours = durationObject.hours;
-                const minutes = durationObject.minutes;
-                const seconds = durationObject.seconds;
-
-                const yearsArray = ["an", "ans"];
-                const weeksArray = ["semaine", "semaines"];
-                const daysArray = ["jour", "jours"];
-
-                const yearsString = years == 1 ? years + ' ' + yearsArray[0] + ' ' :
-                    years > 1 ? years + ' ' + yearsArray[1] + ' ' : '';
-
-                const weeksString = weeks == 1 ? weeks + ' ' + weeksArray[0] + ' ' :
-                    weeks > 1 ? weeks + ' ' + weeksArray[1] + ' ' : '';
-
-                const daysString = days == 1 ? days + ' ' + daysArray[0] + ' ' :
-                    days > 1 ? days + ' ' + daysArray[1] + ' ' : '';
-
-                const durationString = yearsString + months + ' mois ' + weeksString + daysString + minutes + ' minutes ' + seconds + ' secondes '
-
-                return durationString;
-
-
-                const durationElement = document.getElementById(durationElementId);
-
-                const totalDays = document.getElementById(daysElementId);
-
-                durationElement.textContent = durationObject.result + ",";
-
-                totalDays.textContent = "ou " + durationObject.total_days + " jours";
-
-            }
-
-            function setElementText(string, elementID) {
-
-                const element = document.getElementById(elementID);
-
-                element.textContent = string;
-
-            }
-
-            const originDateTime = luxon.DateTime.fromISO("2023-07-17T00:04:00"); // Date et heure d'origine
-
-            // Refresh every seconds
-            setInterval(() => {
-
-                const duration = calculateDuration(luxon.DateTime.now(), originDateTime);
-
-                const string = generateDurationString(duration);
-
-                setElementText(string, "elapsedTime")
-
-            }, 1000);
-
-        </script>
     </body>
 
 </html>

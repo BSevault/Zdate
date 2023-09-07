@@ -7,11 +7,12 @@ function calculateDuration(date1, date2) {
 }
 
 function generateDurationString(durationObject) {
-    const { years, months, weeks, days, minutes, seconds } = durationObject;
+    const { years, months, weeks, days, hours, minutes, seconds } = durationObject;
 
     const yearsArray = ["an", "ans"];
     const weeksArray = ["semaine", "semaines"];
     const daysArray = ["jour", "jours"];
+    const hoursArray = ["heure", "heures"];
 
     const yearsString = years === 1 ? `${years} ${yearsArray[0]} ` :
         years > 1 ? `${years} ${yearsArray[1]} ` : '';
@@ -22,7 +23,10 @@ function generateDurationString(durationObject) {
     const daysString = days === 1 ? `${days} ${daysArray[0]} ` :
         days > 1 ? `${days} ${daysArray[1]} ` : '';
 
-    const durationString = `${yearsString}${months} mois ${weeksString}${daysString}${minutes} minutes ${seconds} secondes`;
+    const hoursString = hours === 1 ? `${hours} ${hoursArray[0]} ` :
+        hours > 1 ? `${hours} ${hoursArray[1]} ` : '';
+
+    const durationString = `${yearsString}${months} mois ${weeksString}${daysString}${hoursString}${minutes} minutes ${seconds} secondes`;
 
     return durationString;
 }
@@ -38,7 +42,7 @@ if (!originDateTime) {
 
 // Refresh every second
 setInterval(() => {
-    const duration = calculateDuration(luxon.DateTime.now(), luxon.DateTime.fromISO(originDateTime));
+    const duration = calculateDuration(luxon.DateTime.now().setLocale('fr'), luxon.DateTime.fromISO(originDateTime));
     const string = generateDurationString(duration);
     setElementText(string, "elapsedTime");
 }, 1000);

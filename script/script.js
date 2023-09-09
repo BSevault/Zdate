@@ -14,17 +14,13 @@ function generateDurationString(durationObject) {
     const daysArray = ["jour", "jours"];
     const hoursArray = ["heure", "heures"];
 
-    const yearsString = years === 1 ? `${years} ${yearsArray[0]} ` :
-        years > 1 ? `${years} ${yearsArray[1]} ` : '';
+    const yearsString = years === 1 ? `${years} ${yearsArray[0]} ` : years > 1 ? `${years} ${yearsArray[1]} ` : '';
 
-    const weeksString = weeks === 1 ? `${weeks} ${weeksArray[0]} ` :
-        weeks > 1 ? `${weeks} ${weeksArray[1]} ` : '';
+    const weeksString = weeks === 1 ? `${weeks} ${weeksArray[0]} ` : weeks > 1 ? `${weeks} ${weeksArray[1]} ` : '';
 
-    const daysString = days === 1 ? `${days} ${daysArray[0]} ` :
-        days > 1 ? `${days} ${daysArray[1]} ` : '';
+    const daysString = days === 1 ? `${days} ${daysArray[0]} ` : days > 1 ? `${days} ${daysArray[1]} ` : '';
 
-    const hoursString = hours === 1 ? `${hours} ${hoursArray[0]} ` :
-        hours > 1 ? `${hours} ${hoursArray[1]} ` : '';
+    const hoursString = hours === 1 ? `${hours} ${hoursArray[0]} ` : hours > 1 ? `${hours} ${hoursArray[1]} ` : '';
 
     const durationString = `${yearsString}${months} mois ${weeksString}${daysString}${hoursString}${minutes} minutes ${seconds} secondes`;
 

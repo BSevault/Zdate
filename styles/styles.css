@@ -1,0 +1,32 @@
+/* Default styles */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+h1 {
+    font-weight: 700;
+    text-align: center;
+}
+
+.elapsed-time {
+    text-align: center;
+    font-size: 30px;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 24px; /* Decrease font size for smaller screens */
+    }
+
+    .elapsed-time,
+    .days {
+        font-size: 20px; /* Decrease font size for smaller screens */
+    }
+}

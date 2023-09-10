@@ -6,8 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Zdate</title>
         <link rel="stylesheet" href="styles.min.css">
-        <script src="luxon.js"></script>
-        <script src="script.min.js"></script>
+        <script async src="luxon.js"></script>
+        <script async src="script.min.js"></script>
+
     </head>
 
     <body>
@@ -16,7 +17,8 @@
                 Zoé est née le 17/07/2023 à 00:04, soit il y a :
             </h1>
         </div>
-        <div class="elapsed-time" id="elapsedTime"></div>
+        <div class="time"><span id="elapsedTime"></span><span id="seconds"></span></div>
+        <div class="time" id="weeksTime"></div>
     </body>
 
 </html>

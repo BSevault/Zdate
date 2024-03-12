@@ -1,4 +1,4 @@
-import "../luxon";
+import "../luxon.js";
 
 const originDateTime = localStorage.getItem('originDateTime');
 

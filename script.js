@@ -1,4 +1,5 @@
-import "luxon.js";
+
+const { DateTime } = luxon
 
 const originDateTime = localStorage.getItem('originDateTime');
 
@@ -47,7 +48,7 @@ function setElementText(string, elementID) {
 }
 
 if (!originDateTime) {
-    localStorage.setItem('originDateTime', luxon.DateTime.fromISO("2023-07-17T00:04:00"));
+    localStorage.setItem('originDateTime', DateTime.fromISO("2023-07-17T00:04:00"));
 }
 
 function updateText(date1, date2) {
@@ -57,7 +58,7 @@ function updateText(date1, date2) {
     return duration.seconds;
 }
 
-const durationSeconds = updateText(luxon.DateTime.now(), luxon.DateTime.fromISO(originDateTime));
+const durationSeconds = updateText(DateTime.now(), DateTime.fromISO(originDateTime));
 setElementText(durationSeconds + ' secondes', 'seconds')
 
 let seconds = durationSeconds;
@@ -68,11 +69,11 @@ setInterval(() => {
     seconds++;
     if (seconds > 60) {
         setElementText(0 + ' secondes', 'seconds')
-        updateText(luxon.DateTime.now(), luxon.DateTime.fromISO(originDateTime));
+        updateText(DateTime.now(), DateTime.fromISO(originDateTime));
         seconds = 0;
     }
 }, 1000);
 
-let weeks = calculateWeekDuration(luxon.DateTime.now(), luxon.DateTime.fromISO(originDateTime));
+let weeks = calculateWeekDuration(DateTime.now(), DateTime.fromISO(originDateTime));
 let weeksString = generateDurationString(weeks, true);
 setElementText(weeksString, "weeksTime");

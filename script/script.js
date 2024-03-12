@@ -1,3 +1,5 @@
+import "../luxon";
+
 const originDateTime = localStorage.getItem('originDateTime');
 
 function calculateDuration(date1, date2) {

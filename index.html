@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Zdate</title>
-        <link rel="icon" type="image/x-icon" href="favicon.ico">
-        <link rel="stylesheet" href="styles.css">
-        <script defer src="luxon.js"></script>
-        <script defer src="script.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zdate</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="luxon.js"></script>
+    <script defer src="script.js"></script>
+</head>
 
-    </head>
+<body class="dark-mode">
+    <div>
+        <h1>
+            Zoé est née le 17/07/2023 à 00:04, soit il y a :
+        </h1>
+    </div>
+    <div class="time"><span id="elapsedTime"></span><span id="seconds"></span></div>
+    <div class="time" id="weeksTime"></div>
 
-    <body>
-        <div>
-            <h1>
-                Zoé est née le 17/07/2023 à 00:04, soit il y a :
-            </h1>
-        </div>
-        <div class="time"><span id="elapsedTime"></span><span id="seconds"></span></div>
-        <div class="time" id="weeksTime"></div>
-    </body>
+    <button id="themeToggle">Light Mode</button>
+
+    <script defer src="theme.js"></script>
+</body>
 
 </html>

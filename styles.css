@@ -6,6 +6,14 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    background-color: white;
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+    background-color: #121212;
+    color: white;
 }
 
 h1 {
@@ -17,6 +25,12 @@ h1 {
     text-align: center;
     font-size: 30px;
     margin: 5px 0px;
+}
+
+button#themeToggle {
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {

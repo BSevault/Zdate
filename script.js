@@ -25,7 +25,7 @@ function generateDurationString(durationObject, weekDate) {
 
     const yearsString = years === 1 ? `${years} ${yearsArray[0]} ` : years > 1 ? `${years} ${yearsArray[1]} ` : '';
 
-    const monthsString = months == null ? '' : `${months} mois `;
+    const monthsString = months == null || months == 0   ? '' : `${months} mois `;
 
     const weeksString = weeks === 1 ? `${weeks} ${weeksArray[0]} ` : weeks > 1 ? `${weeks} ${weeksArray[1]} ` : '';
 

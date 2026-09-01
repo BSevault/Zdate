@@ -1,7 +1,17 @@
+const { DateTime } = luxon;
 
-const { DateTime } = luxon
-
-const originDateTime = localStorage.getItem('originDateTime');
+const children = [
+    {
+        name: "Zoé",
+        birthDate: "2023-07-17T00:04:00",
+        gender: "F"
+    },
+    {
+        name: "Sacha",
+        birthDate: "2026-07-25T04:40:00",
+        gender: "M"
+    }
+];
 
 function calculateDuration(date1, date2) {
     const diff = date1.diff(date2, ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds']).values;
@@ -24,56 +34,84 @@ function generateDurationString(durationObject, weekDate) {
     const hoursArray = ["heure", "heures"];
 
     const yearsString = years === 1 ? `${years} ${yearsArray[0]} ` : years > 1 ? `${years} ${yearsArray[1]} ` : '';
-
-    const monthsString = months == null || months == 0 ? '' : `${months} mois `;
-
+    const monthsString = months == null || months === 0 ? '' : `${months} mois `;
     const weeksString = weeks === 1 ? `${weeks} ${weeksArray[0]} ` : weeks > 1 ? `${weeks} ${weeksArray[1]} ` : '';
-
     const daysString = days === 1 ? `${days} ${daysArray[0]} ` : days > 1 ? `${days} ${daysArray[1]} ` : '';
-
     const hoursString = hours === 1 ? `${hours} ${hoursArray[0]} ` : hours > 1 ? `${hours} ${hoursArray[1]} ` : '';
-
     const minutesString = minutes == null ? '' : `${minutes} minutes `;
 
     const string = `${yearsString}${monthsString}${weeksString}${daysString}${hoursString}${minutesString}`;
-
-    const durationString = !weekDate ? string : 'ou ' + string;
-
-    return durationString;
+    return !weekDate ? string : 'ou ' + string;
 }
 
-function setElementText(string, elementID) {
-    const element = document.getElementById(elementID);
-    element.textContent = string;
-}
+// Initialisation et création de la structure HTML pour chaque enfant
+const container = document.getElementById('children-container');
 
-if (!originDateTime) {
-    localStorage.setItem('originDateTime', DateTime.fromISO("2023-07-17T00:04:00"));
-}
+const childData = children.map((child, index) => {
+    const birth = DateTime.fromISO(child.birthDate);
 
-function updateText(date1, date2) {
-    const duration = calculateDuration(date1, date2);
-    const string = generateDurationString(duration);
-    setElementText(string, 'elapsedTime');
-    return duration.seconds;
-}
+    // Création des éléments HTML
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('child-block');
+    if (index > 0) wrapper.style.marginTop = "40px"; // Espacement entre les enfants
 
-const durationSeconds = updateText(DateTime.now(), DateTime.fromISO(originDateTime));
-setElementText(durationSeconds + ' secondes', 'seconds')
+    const h1 = document.createElement('h1');
+    h1.textContent = `${child.name} est ${child.gender === "F" ? "née" : "né"} le ${birth.toFormat('dd/MM/yyyy à HH:mm')} , soit il y a :`;
 
-let seconds = durationSeconds;
+    const timeDiv1 = document.createElement('div');
+    timeDiv1.classList.add('time');
+    const elapsedSpan = document.createElement('span');
+    const secondsSpan = document.createElement('span');
+    secondsSpan.id = `seconds-${index}`;
+    elapsedSpan.id = `elapsedTime-${index}`;
+    timeDiv1.appendChild(elapsedSpan);
+    timeDiv1.appendChild(secondsSpan);
 
-// Refresh every second
+    const timeDiv2 = document.createElement('div');
+    timeDiv2.classList.add('time');
+    timeDiv2.id = `weeksTime-${index}`;
+
+    wrapper.appendChild(h1);
+    wrapper.appendChild(timeDiv1);
+    wrapper.appendChild(timeDiv2);
+    container.appendChild(wrapper);
+
+    // Calcul initial
+    const now = DateTime.now();
+    const duration = calculateDuration(now, birth);
+    elapsedSpan.textContent = generateDurationString(duration);
+
+    let currentSeconds = duration.seconds;
+    secondsSpan.textContent = currentSeconds + ' secondes';
+
+    const weeks = calculateWeekDuration(now, birth);
+    timeDiv2.textContent = generateDurationString(weeks, true);
+
+    return {
+        birth,
+        elapsedSpan,
+        secondsSpan,
+        timeDiv2,
+        seconds: currentSeconds
+    };
+});
+
+// Mise à jour chaque seconde pour tous les enfants
 setInterval(() => {
-    setElementText(seconds + ' secondes', 'seconds')
-    seconds++;
-    if (seconds > 60) {
-        setElementText(0 + ' secondes', 'seconds')
-        updateText(DateTime.now(), DateTime.fromISO(originDateTime));
-        seconds = 0;
-    }
-}, 1000);
+    const now = DateTime.now();
+    childData.forEach((data, index) => {
+        data.seconds++;
+        data.secondsSpan.textContent = data.seconds + ' secondes';
 
-let weeks = calculateWeekDuration(DateTime.now(), DateTime.fromISO(originDateTime));
-let weeksString = generateDurationString(weeks, true);
-setElementText(weeksString, "weeksTime");
+        if (data.seconds > 60) {
+            data.secondsSpan.textContent = '0 secondes';
+            const duration = calculateDuration(now, data.birth);
+            data.elapsedSpan.textContent = generateDurationString(duration);
+
+            const weeks = calculateWeekDuration(now, data.birth);
+            data.timeDiv2.textContent = generateDurationString(weeks, true);
+
+            data.seconds = 0;
+        }
+    });
+}, 1000);
